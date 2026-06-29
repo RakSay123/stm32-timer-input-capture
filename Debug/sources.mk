@@ -23,6 +23,7 @@ C_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 Devices/bno055 \
+Devices/led \
 Drivers/gpio \
 Drivers/i2c \
 Drivers/systick \
@@ -30,4 +31,9 @@ Drivers/timer \
 Drivers/uart \
 Src \
 Startup \
+device_instances \
+init/gpio \
+init/led \
+init/system \
+init/systick \
 
