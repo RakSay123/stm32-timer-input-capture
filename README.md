@@ -1,5 +1,5 @@
 # STM32 Bare-Metal Timer & PWM Driver
-gif goes here
+![PWM LED Demo](pwm-led-demo.gif)
 
 A hardware PWM implementation for the **STM32G070RB** written completely in **bare-metal C** using CMSIS register definitions. This project demonstrates how to generate PWM signals without STM32 HAL or LL libraries while building a reusable embedded firmware architecture.
 
