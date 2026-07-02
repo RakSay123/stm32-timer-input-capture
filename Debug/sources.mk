@@ -28,12 +28,18 @@ Drivers/gpio \
 Drivers/i2c \
 Drivers/systick \
 Drivers/timer \
+Drivers/timer/timer_pwm \
 Drivers/uart \
 Src \
 Startup \
 device_instances \
+init/bno055 \
 init/gpio \
+init/i2c \
 init/led \
 init/system \
 init/systick \
+init/timer \
+init/timer/timer_pwm \
+init/uart \
 

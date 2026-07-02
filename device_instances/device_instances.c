@@ -1,11 +1,22 @@
 #include "led/led.h"
 
-static LED_t LED1 = {
-    .port = GPIOA,
-    .pin = 5
+static TIM_PWM_Config_t pwm_led_cfg = {
+    .TIMx = TIM3,
+    .channel = 1,
+    .duty_cycle = 50,
+    .pwm_mode = TIM_PWM1
 };
 
-LED_t* get_led1(void)
+static LED_t pwm_led = {
+    .port = GPIOA,
+    .pin = 6,
+    .mode = LED_MODE_PWM,
+	.alternate = GPIO_AF1,
+    .pwm_cfg = &pwm_led_cfg
+};
+
+
+LED_t* get_pwm_led(void)
 {
-    return &LED1;
+	return &pwm_led;
 }

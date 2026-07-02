@@ -2,7 +2,7 @@
 
 static TIM_Config_t tim3_cfg = {
 	.TIMx = TIM3,
-	.psc = 16000 - 1,
+	.psc = 16 - 1,
 	.arr = 1000 - 1,
 	.cnt = 0,
 	.interrupt_status = TIM_INTERRUPTS_DISABLED
@@ -10,5 +10,5 @@ static TIM_Config_t tim3_cfg = {
 
 void timer_init_all(void)
 {
-	timer_init(&timx_cfg);
+	timer_init(&tim3_cfg);
 }

@@ -9,14 +9,20 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include init/uart/subdir.mk
+-include init/timer/timer_pwm/subdir.mk
+-include init/timer/subdir.mk
 -include init/systick/subdir.mk
 -include init/system/subdir.mk
 -include init/led/subdir.mk
+-include init/i2c/subdir.mk
 -include init/gpio/subdir.mk
+-include init/bno055/subdir.mk
 -include device_instances/subdir.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
 -include Drivers/uart/subdir.mk
+-include Drivers/timer/timer_pwm/subdir.mk
 -include Drivers/timer/subdir.mk
 -include Drivers/systick/subdir.mk
 -include Drivers/i2c/subdir.mk

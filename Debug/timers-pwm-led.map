@@ -39,7 +39,7 @@ C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externalt
 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-sbrkr.o)
                               C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-mallocr.o) (_sbrk_r)
 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
-                              ./Drivers/i2c/i2c.o (__aeabi_uidiv)
+                              ./Drivers/timer/timer_pwm/timer_pwm.o (__aeabi_uidiv)
 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
                               ./Drivers/uart/uart.o (__aeabi_idiv)
 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
@@ -233,8 +233,10 @@ Discarded input sections
  .text          0x00000000        0x0 ./Devices/led/led.o
  .data          0x00000000        0x0 ./Devices/led/led.o
  .bss           0x00000000        0x0 ./Devices/led/led.o
- .text.led_on   0x00000000       0x20 ./Devices/led/led.o
- .text.led_off  0x00000000       0x20 ./Devices/led/led.o
+ .text.led_toggle
+                0x00000000       0x2a ./Devices/led/led.o
+ .text.led_on   0x00000000       0x2a ./Devices/led/led.o
+ .text.led_off  0x00000000       0x2a ./Devices/led/led.o
  .debug_macro   0x00000000      0xab4 ./Devices/led/led.o
  .debug_macro   0x00000000       0x22 ./Devices/led/led.o
  .debug_macro   0x00000000       0x8e ./Devices/led/led.o
@@ -268,6 +270,8 @@ Discarded input sections
  .bss           0x00000000        0x0 ./Drivers/gpio/gpio.o
  .text.gpio_write
                 0x00000000       0x5c ./Drivers/gpio/gpio.o
+ .text.gpio_toggle
+                0x00000000       0x54 ./Drivers/gpio/gpio.o
  .text.gpio_toggle_pin
                 0x00000000       0x58 ./Drivers/gpio/gpio.o
  .text.gpio_read
@@ -305,8 +309,6 @@ Discarded input sections
  .bss           0x00000000        0x0 ./Drivers/i2c/i2c.o
  .text.i2c_enable_clock
                 0x00000000       0x4c ./Drivers/i2c/i2c.o
- .text.i2c_compute_timing
-                0x00000000       0x9c ./Drivers/i2c/i2c.o
  .text.i2c_init
                 0x00000000       0x40 ./Drivers/i2c/i2c.o
  .text.i2c_start
@@ -323,14 +325,12 @@ Discarded input sections
                 0x00000000       0x60 ./Drivers/i2c/i2c.o
  .text.i2c_read_register
                 0x00000000      0x144 ./Drivers/i2c/i2c.o
- .text.i2c_reset
-                0x00000000       0x2a ./Drivers/i2c/i2c.o
- .debug_info    0x00000000      0x701 ./Drivers/i2c/i2c.o
- .debug_abbrev  0x00000000      0x1db ./Drivers/i2c/i2c.o
+ .debug_info    0x00000000      0x627 ./Drivers/i2c/i2c.o
+ .debug_abbrev  0x00000000      0x1be ./Drivers/i2c/i2c.o
  .debug_aranges
-                0x00000000       0x70 ./Drivers/i2c/i2c.o
+                0x00000000       0x60 ./Drivers/i2c/i2c.o
  .debug_rnglists
-                0x00000000       0x53 ./Drivers/i2c/i2c.o
+                0x00000000       0x46 ./Drivers/i2c/i2c.o
  .debug_macro   0x00000000      0x119 ./Drivers/i2c/i2c.o
  .debug_macro   0x00000000      0xab4 ./Drivers/i2c/i2c.o
  .debug_macro   0x00000000       0x22 ./Drivers/i2c/i2c.o
@@ -346,10 +346,10 @@ Discarded input sections
  .debug_macro   0x00000000      0x4da ./Drivers/i2c/i2c.o
  .debug_macro   0x00000000      0x11f ./Drivers/i2c/i2c.o
  .debug_macro   0x00000000     0xa6de ./Drivers/i2c/i2c.o
- .debug_line    0x00000000      0x83c ./Drivers/i2c/i2c.o
- .debug_str     0x00000000    0x42cc4 ./Drivers/i2c/i2c.o
+ .debug_line    0x00000000      0x7c9 ./Drivers/i2c/i2c.o
+ .debug_str     0x00000000    0x42c50 ./Drivers/i2c/i2c.o
  .comment       0x00000000       0x44 ./Drivers/i2c/i2c.o
- .debug_frame   0x00000000      0x178 ./Drivers/i2c/i2c.o
+ .debug_frame   0x00000000      0x138 ./Drivers/i2c/i2c.o
  .ARM.attributes
                 0x00000000       0x2c ./Drivers/i2c/i2c.o
  .group         0x00000000        0xc ./Drivers/systick/systick.o
@@ -403,16 +403,6 @@ Discarded input sections
  .text          0x00000000        0x0 ./Drivers/timer/timer.o
  .data          0x00000000        0x0 ./Drivers/timer/timer.o
  .bss           0x00000000        0x0 ./Drivers/timer/timer.o
- .text.__NVIC_EnableIRQ
-                0x00000000       0x34 ./Drivers/timer/timer.o
- .text.timer_enable_clock
-                0x00000000       0xf4 ./Drivers/timer/timer.o
- .text.timer_get_irq
-                0x00000000       0x94 ./Drivers/timer/timer.o
- .text.timer_NVIC_interrupt_enable
-                0x00000000       0x3c ./Drivers/timer/timer.o
- .text.timer_init
-                0x00000000       0xce ./Drivers/timer/timer.o
  .text.timer_wait
                 0x00000000       0x2c ./Drivers/timer/timer.o
  .text.timer_delay_s
@@ -421,13 +411,6 @@ Discarded input sections
                 0x00000000       0x20 ./Drivers/timer/timer.o
  .text.timer_clear_update_flag
                 0x00000000       0x20 ./Drivers/timer/timer.o
- .debug_info    0x00000000      0x7b8 ./Drivers/timer/timer.o
- .debug_abbrev  0x00000000      0x21e ./Drivers/timer/timer.o
- .debug_aranges
-                0x00000000       0x60 ./Drivers/timer/timer.o
- .debug_rnglists
-                0x00000000       0x46 ./Drivers/timer/timer.o
- .debug_macro   0x00000000       0xb9 ./Drivers/timer/timer.o
  .debug_macro   0x00000000      0xab4 ./Drivers/timer/timer.o
  .debug_macro   0x00000000       0x22 ./Drivers/timer/timer.o
  .debug_macro   0x00000000       0x8e ./Drivers/timer/timer.o
@@ -442,12 +425,37 @@ Discarded input sections
  .debug_macro   0x00000000      0x4da ./Drivers/timer/timer.o
  .debug_macro   0x00000000      0x11f ./Drivers/timer/timer.o
  .debug_macro   0x00000000     0xa6de ./Drivers/timer/timer.o
- .debug_line    0x00000000      0x7c9 ./Drivers/timer/timer.o
- .debug_str     0x00000000    0x42d41 ./Drivers/timer/timer.o
- .comment       0x00000000       0x44 ./Drivers/timer/timer.o
- .debug_frame   0x00000000      0x13c ./Drivers/timer/timer.o
- .ARM.attributes
-                0x00000000       0x2c ./Drivers/timer/timer.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .group         0x00000000        0xc ./Drivers/timer/timer_pwm/timer_pwm.o
+ .text          0x00000000        0x0 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .data          0x00000000        0x0 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .bss           0x00000000        0x0 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000      0xab4 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0x22 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0x8e ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0x51 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000      0x103 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0x6a ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000      0x1df ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0x28 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0x1c ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0x22 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000       0xd1 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000      0x4da ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000      0x11f ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x00000000     0xa6de ./Drivers/timer/timer_pwm/timer_pwm.o
  .group         0x00000000        0xc ./Drivers/uart/uart.o
  .group         0x00000000        0xc ./Drivers/uart/uart.o
  .group         0x00000000        0xc ./Drivers/uart/uart.o
@@ -490,7 +498,7 @@ Discarded input sections
                 0x00000000       0xe8 ./Drivers/uart/uart.o
  .text.uart_flush
                 0x00000000       0x2e ./Drivers/uart/uart.o
- .debug_info    0x00000000      0x63d ./Drivers/uart/uart.o
+ .debug_info    0x00000000      0x61f ./Drivers/uart/uart.o
  .debug_abbrev  0x00000000      0x190 ./Drivers/uart/uart.o
  .debug_aranges
                 0x00000000       0x78 ./Drivers/uart/uart.o
@@ -782,6 +790,52 @@ Discarded input sections
  .debug_macro   0x00000000      0x4da ./device_instances/device_instances.o
  .debug_macro   0x00000000      0x11f ./device_instances/device_instances.o
  .debug_macro   0x00000000     0xa6de ./device_instances/device_instances.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .group         0x00000000        0xc ./init/bno055/bno055_init.o
+ .text          0x00000000        0x0 ./init/bno055/bno055_init.o
+ .data          0x00000000        0x0 ./init/bno055/bno055_init.o
+ .bss           0x00000000        0x0 ./init/bno055/bno055_init.o
+ .text.bno055_init_all
+                0x00000000        0xa ./init/bno055/bno055_init.o
+ .debug_info    0x00000000       0x8a ./init/bno055/bno055_init.o
+ .debug_abbrev  0x00000000       0x43 ./init/bno055/bno055_init.o
+ .debug_aranges
+                0x00000000       0x20 ./init/bno055/bno055_init.o
+ .debug_rnglists
+                0x00000000       0x13 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0xf5 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000      0xab4 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0x28 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0x22 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0x8e ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0x51 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000      0x103 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0x6a ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000      0x1df ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0x1c ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0x22 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000       0xd1 ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000      0x4da ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000      0x11f ./init/bno055/bno055_init.o
+ .debug_macro   0x00000000     0xa6de ./init/bno055/bno055_init.o
+ .debug_line    0x00000000      0x708 ./init/bno055/bno055_init.o
+ .debug_str     0x00000000    0x428f2 ./init/bno055/bno055_init.o
+ .comment       0x00000000       0x44 ./init/bno055/bno055_init.o
+ .debug_frame   0x00000000       0x2c ./init/bno055/bno055_init.o
+ .ARM.attributes
+                0x00000000       0x2c ./init/bno055/bno055_init.o
  .group         0x00000000        0xc ./init/gpio/gpio_init.o
  .group         0x00000000        0xc ./init/gpio/gpio_init.o
  .group         0x00000000        0xc ./init/gpio/gpio_init.o
@@ -799,15 +853,7 @@ Discarded input sections
  .text          0x00000000        0x0 ./init/gpio/gpio_init.o
  .data          0x00000000        0x0 ./init/gpio/gpio_init.o
  .bss           0x00000000        0x0 ./init/gpio/gpio_init.o
- .text.gpio_init_all
-                0x00000000        0xa ./init/gpio/gpio_init.o
- .debug_info    0x00000000       0x83 ./init/gpio/gpio_init.o
- .debug_abbrev  0x00000000       0x43 ./init/gpio/gpio_init.o
- .debug_aranges
-                0x00000000       0x20 ./init/gpio/gpio_init.o
- .debug_rnglists
-                0x00000000       0x13 ./init/gpio/gpio_init.o
- .debug_macro   0x00000000       0xc3 ./init/gpio/gpio_init.o
+ .data.PA6      0x00000000        0xc ./init/gpio/gpio_init.o
  .debug_macro   0x00000000      0xab4 ./init/gpio/gpio_init.o
  .debug_macro   0x00000000       0x22 ./init/gpio/gpio_init.o
  .debug_macro   0x00000000       0x8e ./init/gpio/gpio_init.o
@@ -822,12 +868,52 @@ Discarded input sections
  .debug_macro   0x00000000      0x4da ./init/gpio/gpio_init.o
  .debug_macro   0x00000000      0x11f ./init/gpio/gpio_init.o
  .debug_macro   0x00000000     0xa6de ./init/gpio/gpio_init.o
- .debug_line    0x00000000      0x52e ./init/gpio/gpio_init.o
- .debug_str     0x00000000    0x428c7 ./init/gpio/gpio_init.o
- .comment       0x00000000       0x44 ./init/gpio/gpio_init.o
- .debug_frame   0x00000000       0x2c ./init/gpio/gpio_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .group         0x00000000        0xc ./init/i2c/i2c_init.o
+ .text          0x00000000        0x0 ./init/i2c/i2c_init.o
+ .data          0x00000000        0x0 ./init/i2c/i2c_init.o
+ .bss           0x00000000        0x0 ./init/i2c/i2c_init.o
+ .text.i2c_init_all
+                0x00000000        0xa ./init/i2c/i2c_init.o
+ .debug_info    0x00000000       0x83 ./init/i2c/i2c_init.o
+ .debug_abbrev  0x00000000       0x45 ./init/i2c/i2c_init.o
+ .debug_aranges
+                0x00000000       0x20 ./init/i2c/i2c_init.o
+ .debug_rnglists
+                0x00000000       0x13 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0xc3 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000      0xab4 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0x22 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0x8e ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0x51 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000      0x103 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0x6a ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000      0x1df ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0x28 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0x1c ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0x22 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000       0xd1 ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000      0x4da ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000      0x11f ./init/i2c/i2c_init.o
+ .debug_macro   0x00000000     0xa6de ./init/i2c/i2c_init.o
+ .debug_line    0x00000000      0x529 ./init/i2c/i2c_init.o
+ .debug_str     0x00000000    0x428c3 ./init/i2c/i2c_init.o
+ .comment       0x00000000       0x44 ./init/i2c/i2c_init.o
+ .debug_frame   0x00000000       0x2c ./init/i2c/i2c_init.o
  .ARM.attributes
-                0x00000000       0x2c ./init/gpio/gpio_init.o
+                0x00000000       0x2c ./init/i2c/i2c_init.o
  .group         0x00000000        0xc ./init/led/led_init.o
  .group         0x00000000        0xc ./init/led/led_init.o
  .group         0x00000000        0xc ./init/led/led_init.o
@@ -877,13 +963,13 @@ Discarded input sections
  .data          0x00000000        0x0 ./init/system/system.o
  .bss           0x00000000        0x0 ./init/system/system.o
  .debug_macro   0x00000000      0xab4 ./init/system/system.o
- .debug_macro   0x00000000       0x28 ./init/system/system.o
  .debug_macro   0x00000000       0x22 ./init/system/system.o
  .debug_macro   0x00000000       0x8e ./init/system/system.o
  .debug_macro   0x00000000       0x51 ./init/system/system.o
  .debug_macro   0x00000000      0x103 ./init/system/system.o
  .debug_macro   0x00000000       0x6a ./init/system/system.o
  .debug_macro   0x00000000      0x1df ./init/system/system.o
+ .debug_macro   0x00000000       0x28 ./init/system/system.o
  .debug_macro   0x00000000       0x1c ./init/system/system.o
  .debug_macro   0x00000000       0x22 ./init/system/system.o
  .debug_macro   0x00000000       0xd1 ./init/system/system.o
@@ -921,6 +1007,130 @@ Discarded input sections
  .debug_macro   0x00000000      0x4da ./init/systick/systick_init.o
  .debug_macro   0x00000000      0x11f ./init/systick/systick_init.o
  .debug_macro   0x00000000     0xa6de ./init/systick/systick_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_init.o
+ .text          0x00000000        0x0 ./init/timer/timer_init.o
+ .data          0x00000000        0x0 ./init/timer/timer_init.o
+ .bss           0x00000000        0x0 ./init/timer/timer_init.o
+ .debug_macro   0x00000000      0xab4 ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0x22 ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0x8e ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0x51 ./init/timer/timer_init.o
+ .debug_macro   0x00000000      0x103 ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0x6a ./init/timer/timer_init.o
+ .debug_macro   0x00000000      0x1df ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0x28 ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0x1c ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0x22 ./init/timer/timer_init.o
+ .debug_macro   0x00000000       0xd1 ./init/timer/timer_init.o
+ .debug_macro   0x00000000      0x4da ./init/timer/timer_init.o
+ .debug_macro   0x00000000      0x11f ./init/timer/timer_init.o
+ .debug_macro   0x00000000     0xa6de ./init/timer/timer_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/timer/timer_pwm/timer_pwm_init.o
+ .text          0x00000000        0x0 ./init/timer/timer_pwm/timer_pwm_init.o
+ .data          0x00000000        0x0 ./init/timer/timer_pwm/timer_pwm_init.o
+ .bss           0x00000000        0x0 ./init/timer/timer_pwm/timer_pwm_init.o
+ .data.pwm_led  0x00000000       0x10 ./init/timer/timer_pwm/timer_pwm_init.o
+ .text.timer_pwm_init_all
+                0x00000000       0x18 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_info    0x00000000      0x2df ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_abbrev  0x00000000      0x118 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_aranges
+                0x00000000       0x20 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_rnglists
+                0x00000000       0x13 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0xc1 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000      0xab4 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0x22 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0x8e ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0x51 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000      0x103 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0x6a ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000      0x1df ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0x28 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0x1c ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0x22 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000       0xd1 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000      0x4da ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000      0x11f ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_macro   0x00000000     0xa6de ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_line    0x00000000      0x5ac ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_str     0x00000000    0x429fa ./init/timer/timer_pwm/timer_pwm_init.o
+ .comment       0x00000000       0x44 ./init/timer/timer_pwm/timer_pwm_init.o
+ .debug_frame   0x00000000       0x2c ./init/timer/timer_pwm/timer_pwm_init.o
+ .ARM.attributes
+                0x00000000       0x2c ./init/timer/timer_pwm/timer_pwm_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .group         0x00000000        0xc ./init/uart/uart_init.o
+ .text          0x00000000        0x0 ./init/uart/uart_init.o
+ .data          0x00000000        0x0 ./init/uart/uart_init.o
+ .bss           0x00000000        0x0 ./init/uart/uart_init.o
+ .text.uart_init_all
+                0x00000000        0xa ./init/uart/uart_init.o
+ .debug_info    0x00000000       0x83 ./init/uart/uart_init.o
+ .debug_abbrev  0x00000000       0x45 ./init/uart/uart_init.o
+ .debug_aranges
+                0x00000000       0x20 ./init/uart/uart_init.o
+ .debug_rnglists
+                0x00000000       0x13 ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0xc3 ./init/uart/uart_init.o
+ .debug_macro   0x00000000      0xab4 ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0x22 ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0x8e ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0x51 ./init/uart/uart_init.o
+ .debug_macro   0x00000000      0x103 ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0x6a ./init/uart/uart_init.o
+ .debug_macro   0x00000000      0x1df ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0x28 ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0x1c ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0x22 ./init/uart/uart_init.o
+ .debug_macro   0x00000000       0xd1 ./init/uart/uart_init.o
+ .debug_macro   0x00000000      0x4da ./init/uart/uart_init.o
+ .debug_macro   0x00000000      0x11f ./init/uart/uart_init.o
+ .debug_macro   0x00000000     0xa6de ./init/uart/uart_init.o
+ .debug_line    0x00000000      0x52e ./init/uart/uart_init.o
+ .debug_str     0x00000000    0x428c7 ./init/uart/uart_init.o
+ .comment       0x00000000       0x44 ./init/uart/uart_init.o
+ .debug_frame   0x00000000       0x2c ./init/uart/uart_init.o
+ .ARM.attributes
+                0x00000000       0x2c ./init/uart/uart_init.o
  .text          0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-exit.o)
  .data          0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-exit.o)
  .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-exit.o)
@@ -1138,23 +1348,16 @@ Discarded input sections
  .debug_frame   0x00000000       0x2c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-sbrkr.o)
  .ARM.attributes
                 0x00000000       0x2c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-sbrkr.o)
- .text          0x00000000      0x114 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
  .data          0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
  .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
- .debug_frame   0x00000000       0x20 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
- .ARM.attributes
-                0x00000000       0x1e C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
  .text          0x00000000      0x1d4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
  .data          0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
  .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
  .debug_frame   0x00000000       0x20 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
  .ARM.attributes
                 0x00000000       0x1e C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
- .text          0x00000000        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .data          0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
- .ARM.attributes
-                0x00000000       0x1e C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
  .text          0x00000000       0x74 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_arm_cmpsf2.o)
  .data          0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_arm_cmpsf2.o)
  .bss           0x00000000        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_arm_cmpsf2.o)
@@ -1244,16 +1447,22 @@ LOAD ./Drivers/gpio/gpio.o
 LOAD ./Drivers/i2c/i2c.o
 LOAD ./Drivers/systick/systick.o
 LOAD ./Drivers/timer/timer.o
+LOAD ./Drivers/timer/timer_pwm/timer_pwm.o
 LOAD ./Drivers/uart/uart.o
 LOAD ./Src/main.o
 LOAD ./Src/syscalls.o
 LOAD ./Src/sysmem.o
 LOAD ./Startup/startup_stm32g070rbtx.o
 LOAD ./device_instances/device_instances.o
+LOAD ./init/bno055/bno055_init.o
 LOAD ./init/gpio/gpio_init.o
+LOAD ./init/i2c/i2c_init.o
 LOAD ./init/led/led_init.o
 LOAD ./init/system/system.o
 LOAD ./init/systick/systick_init.o
+LOAD ./init/timer/timer_init.o
+LOAD ./init/timer/timer_pwm/timer_pwm_init.o
+LOAD ./init/uart/uart_init.o
 START GROUP
 LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a
 LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libm.a
@@ -1285,220 +1494,261 @@ LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.exte
                 0x08000000                g_pfnVectors
                 0x080000bc                        . = ALIGN (0x4)
 
-.text           0x080000bc      0x580
+.text           0x080000bc      0xcc0
                 0x080000bc                        . = ALIGN (0x4)
  *(.text)
  .text          0x080000bc       0x48 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+ .text          0x08000104      0x114 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
+                0x08000104                __aeabi_uidiv
+                0x08000104                __udivsi3
+                0x08000210                __aeabi_uidivmod
+ .text          0x08000218        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
+                0x08000218                __aeabi_idiv0
+                0x08000218                __aeabi_ldiv0
  *(.text*)
  .text.led_init
-                0x08000104       0x48 ./Devices/led/led.o
-                0x08000104                led_init
- .text.led_toggle
-                0x0800014c       0x20 ./Devices/led/led.o
-                0x0800014c                led_toggle
+                0x0800021c       0x9e ./Devices/led/led.o
+                0x0800021c                led_init
+ .text.led_set_brightness
+                0x080002ba       0x2a ./Devices/led/led.o
+                0x080002ba                led_set_brightness
  .text.gpio_enable_clock
-                0x0800016c       0x94 ./Drivers/gpio/gpio.o
-                0x0800016c                gpio_enable_clock
+                0x080002e4       0x94 ./Drivers/gpio/gpio.o
+                0x080002e4                gpio_enable_clock
  .text.gpio_mode_config
-                0x08000200       0x48 ./Drivers/gpio/gpio.o
-                0x08000200                gpio_mode_config
+                0x08000378       0x48 ./Drivers/gpio/gpio.o
+                0x08000378                gpio_mode_config
  .text.gpio_output_type_config
-                0x08000248       0x54 ./Drivers/gpio/gpio.o
-                0x08000248                gpio_output_type_config
+                0x080003c0       0x54 ./Drivers/gpio/gpio.o
+                0x080003c0                gpio_output_type_config
  .text.gpio_speed_config
-                0x0800029c       0x48 ./Drivers/gpio/gpio.o
-                0x0800029c                gpio_speed_config
+                0x08000414       0x48 ./Drivers/gpio/gpio.o
+                0x08000414                gpio_speed_config
  .text.gpio_pull_config
-                0x080002e4       0x48 ./Drivers/gpio/gpio.o
-                0x080002e4                gpio_pull_config
+                0x0800045c       0x48 ./Drivers/gpio/gpio.o
+                0x0800045c                gpio_pull_config
  .text.gpio_alternate_function_config
-                0x0800032c       0x86 ./Drivers/gpio/gpio.o
-                0x0800032c                gpio_alternate_function_config
+                0x080004a4       0x86 ./Drivers/gpio/gpio.o
+                0x080004a4                gpio_alternate_function_config
  .text.gpio_init
-                0x080003b2       0x94 ./Drivers/gpio/gpio.o
-                0x080003b2                gpio_init
- .text.gpio_toggle
-                0x08000446       0x54 ./Drivers/gpio/gpio.o
-                0x08000446                gpio_toggle
- *fill*         0x0800049a        0x2 
+                0x0800052a       0x94 ./Drivers/gpio/gpio.o
+                0x0800052a                gpio_init
+ *fill*         0x080005be        0x2 
  .text.systick_init
-                0x0800049c       0x28 ./Drivers/systick/systick.o
-                0x0800049c                systick_init
+                0x080005c0       0x28 ./Drivers/systick/systick.o
+                0x080005c0                systick_init
  .text.SysTick_Handler
-                0x080004c4       0x18 ./Drivers/systick/systick.o
-                0x080004c4                SysTick_Handler
+                0x080005e8       0x18 ./Drivers/systick/systick.o
+                0x080005e8                SysTick_Handler
  .text.systick_delay_ms
-                0x080004dc       0x38 ./Drivers/systick/systick.o
-                0x080004dc                systick_delay_ms
- .text.main     0x08000514       0x28 ./Src/main.o
-                0x08000514                main
+                0x08000600       0x38 ./Drivers/systick/systick.o
+                0x08000600                systick_delay_ms
+ .text.__NVIC_EnableIRQ
+                0x08000638       0x34 ./Drivers/timer/timer.o
+ .text.timer_enable_clock
+                0x0800066c       0xf4 ./Drivers/timer/timer.o
+ .text.timer_get_irq
+                0x08000760       0x94 ./Drivers/timer/timer.o
+ .text.timer_NVIC_interrupt_enable
+                0x080007f4       0x3e ./Drivers/timer/timer.o
+ .text.timer_init
+                0x08000832       0xce ./Drivers/timer/timer.o
+                0x08000832                timer_init
+ .text.timer_pwm_configure_duty_cycle
+                0x08000900       0x80 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .text.timer_pwm_get_mode_value
+                0x08000980       0x3a ./Drivers/timer/timer_pwm/timer_pwm.o
+ *fill*         0x080009ba        0x2 
+ .text.timer_pwm_config_channel
+                0x080009bc      0x170 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .text.timer_pwm_init
+                0x08000b2c       0x7a ./Drivers/timer/timer_pwm/timer_pwm.o
+                0x08000b2c                timer_pwm_init
+ .text.timer_pwm_set_duty_cycle
+                0x08000ba6       0x42 ./Drivers/timer/timer_pwm/timer_pwm.o
+                0x08000ba6                timer_pwm_set_duty_cycle
+ .text.main     0x08000be8       0x66 ./Src/main.o
+                0x08000be8                main
+ *fill*         0x08000c4e        0x2 
  .text.Reset_Handler
-                0x0800053c       0x50 ./Startup/startup_stm32g070rbtx.o
-                0x0800053c                Reset_Handler
+                0x08000c50       0x50 ./Startup/startup_stm32g070rbtx.o
+                0x08000c50                Reset_Handler
  .text.Default_Handler
-                0x0800058c        0x2 ./Startup/startup_stm32g070rbtx.o
-                0x0800058c                TIM1_CC_IRQHandler
-                0x0800058c                HardFault_Handler
-                0x0800058c                RTC_STAMP_IRQHandler
-                0x0800058c                PendSV_Handler
-                0x0800058c                NMI_Handler
-                0x0800058c                I2C1_IRQHandler
-                0x0800058c                TIM7_LPTIM2_IRQHandler
-                0x0800058c                DMA1_Channel4_5_6_7_DMAMUX_DMA2_Channel1_2_3_4_5_IRQHandler
-                0x0800058c                SPI1_IRQHandler
-                0x0800058c                TIM1_BRK_UP_TRG_COMP_IRQHandler
-                0x0800058c                EXTI2_3_IRQHandler
-                0x0800058c                I2C2_IRQHandler
-                0x0800058c                TIM17_IRQHandler
-                0x0800058c                TIM16_IRQHandler
-                0x0800058c                TIM3_IRQHandler
-                0x0800058c                EXTI4_15_IRQHandler
-                0x0800058c                RCC_IRQHandler
-                0x0800058c                DMA1_Channel1_IRQHandler
-                0x0800058c                Default_Handler
-                0x0800058c                CEC_IRQHandler
-                0x0800058c                TIM14_IRQHandler
-                0x0800058c                ADC_IRQHandler
-                0x0800058c                TIM15_IRQHandler
-                0x0800058c                EXTI0_1_IRQHandler
-                0x0800058c                SPI2_IRQHandler
-                0x0800058c                SVC_Handler
-                0x0800058c                TIM6_DAC_LPTIM1_IRQHandler
-                0x0800058c                WWDG_IRQHandler
-                0x0800058c                TIM2_IRQHandler
-                0x0800058c                DMA1_Channel2_3_IRQHandler
-                0x0800058c                USART2_IRQHandler
-                0x0800058c                FLASH_IRQHandler
-                0x0800058c                USART1_IRQHandler
-                0x0800058c                USART3_USART4_LPUART1_IRQHandler
- *fill*         0x0800058e        0x2 
- .text.get_led1
-                0x08000590       0x10 ./device_instances/device_instances.o
-                0x08000590                get_led1
+                0x08000ca0        0x2 ./Startup/startup_stm32g070rbtx.o
+                0x08000ca0                TIM1_CC_IRQHandler
+                0x08000ca0                HardFault_Handler
+                0x08000ca0                RTC_STAMP_IRQHandler
+                0x08000ca0                PendSV_Handler
+                0x08000ca0                NMI_Handler
+                0x08000ca0                I2C1_IRQHandler
+                0x08000ca0                TIM7_LPTIM2_IRQHandler
+                0x08000ca0                DMA1_Channel4_5_6_7_DMAMUX_DMA2_Channel1_2_3_4_5_IRQHandler
+                0x08000ca0                SPI1_IRQHandler
+                0x08000ca0                TIM1_BRK_UP_TRG_COMP_IRQHandler
+                0x08000ca0                EXTI2_3_IRQHandler
+                0x08000ca0                I2C2_IRQHandler
+                0x08000ca0                TIM17_IRQHandler
+                0x08000ca0                TIM16_IRQHandler
+                0x08000ca0                TIM3_IRQHandler
+                0x08000ca0                EXTI4_15_IRQHandler
+                0x08000ca0                RCC_IRQHandler
+                0x08000ca0                DMA1_Channel1_IRQHandler
+                0x08000ca0                Default_Handler
+                0x08000ca0                CEC_IRQHandler
+                0x08000ca0                TIM14_IRQHandler
+                0x08000ca0                ADC_IRQHandler
+                0x08000ca0                TIM15_IRQHandler
+                0x08000ca0                EXTI0_1_IRQHandler
+                0x08000ca0                SPI2_IRQHandler
+                0x08000ca0                SVC_Handler
+                0x08000ca0                TIM6_DAC_LPTIM1_IRQHandler
+                0x08000ca0                WWDG_IRQHandler
+                0x08000ca0                TIM2_IRQHandler
+                0x08000ca0                DMA1_Channel2_3_IRQHandler
+                0x08000ca0                USART2_IRQHandler
+                0x08000ca0                FLASH_IRQHandler
+                0x08000ca0                USART1_IRQHandler
+                0x08000ca0                USART3_USART4_LPUART1_IRQHandler
+ *fill*         0x08000ca2        0x2 
+ .text.get_pwm_led
+                0x08000ca4       0x10 ./device_instances/device_instances.o
+                0x08000ca4                get_pwm_led
+ .text.gpio_init_all
+                0x08000cb4        0xa ./init/gpio/gpio_init.o
+                0x08000cb4                gpio_init_all
  .text.led_init_all
-                0x080005a0       0x16 ./init/led/led_init.o
-                0x080005a0                led_init_all
+                0x08000cbe       0x16 ./init/led/led_init.o
+                0x08000cbe                led_init_all
  .text.system_init
-                0x080005b6       0x12 ./init/system/system.o
-                0x080005b6                system_init
+                0x08000cd4       0x1a ./init/system/system.o
+                0x08000cd4                system_init
  .text.systick_init_all
-                0x080005c8       0x14 ./init/systick/systick_init.o
-                0x080005c8                systick_init_all
+                0x08000cee       0x14 ./init/systick/systick_init.o
+                0x08000cee                systick_init_all
+ *fill*         0x08000d02        0x2 
+ .text.timer_init_all
+                0x08000d04       0x18 ./init/timer/timer_init.o
+                0x08000d04                timer_init_all
  .text.__libc_init_array
-                0x080005dc       0x48 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
-                0x080005dc                __libc_init_array
+                0x08000d1c       0x48 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
+                0x08000d1c                __libc_init_array
  *(.glue_7)
- .glue_7        0x08000624        0x0 linker stubs
+ .glue_7        0x08000d64        0x0 linker stubs
  *(.glue_7t)
- .glue_7t       0x08000624        0x0 linker stubs
+ .glue_7t       0x08000d64        0x0 linker stubs
  *(.eh_frame)
- .eh_frame      0x08000624        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+ .eh_frame      0x08000d64        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
  *(.init)
- .init          0x08000624        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
-                0x08000624                _init
- .init          0x08000628        0x8 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
+ .init          0x08000d64        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
+                0x08000d64                _init
+ .init          0x08000d68        0x8 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
  *(.fini)
- .fini          0x08000630        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
-                0x08000630                _fini
- .fini          0x08000634        0x8 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
-                0x0800063c                        . = ALIGN (0x4)
-                0x0800063c                        _etext = .
+ .fini          0x08000d70        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crti.o
+                0x08000d70                _fini
+ .fini          0x08000d74        0x8 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
+                0x08000d7c                        . = ALIGN (0x4)
+                0x08000d7c                        _etext = .
 
-.vfp11_veneer   0x0800063c        0x0
- .vfp11_veneer  0x0800063c        0x0 linker stubs
+.vfp11_veneer   0x08000d7c        0x0
+ .vfp11_veneer  0x08000d7c        0x0 linker stubs
 
-.v4_bx          0x0800063c        0x0
- .v4_bx         0x0800063c        0x0 linker stubs
+.v4_bx          0x08000d7c        0x0
+ .v4_bx         0x08000d7c        0x0 linker stubs
 
-.iplt           0x0800063c        0x0
- .iplt          0x0800063c        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+.iplt           0x08000d7c        0x0
+ .iplt          0x08000d7c        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.rodata         0x0800063c        0x0
-                0x0800063c                        . = ALIGN (0x4)
+.rodata         0x08000d7c        0x0
+                0x08000d7c                        . = ALIGN (0x4)
  *(.rodata)
  *(.rodata*)
-                0x0800063c                        . = ALIGN (0x4)
+                0x08000d7c                        . = ALIGN (0x4)
 
-.ARM.extab      0x0800063c        0x0
-                0x0800063c                        . = ALIGN (0x4)
+.ARM.extab      0x08000d7c        0x0
+                0x08000d7c                        . = ALIGN (0x4)
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x0800063c                        . = ALIGN (0x4)
+                0x08000d7c                        . = ALIGN (0x4)
 
-.ARM            0x0800063c        0x0
-                0x0800063c                        . = ALIGN (0x4)
-                0x0800063c                        __exidx_start = .
+.ARM            0x08000d7c        0x0
+                0x08000d7c                        . = ALIGN (0x4)
+                0x08000d7c                        __exidx_start = .
  *(.ARM.exidx*)
-                0x0800063c                        __exidx_end = .
-                0x0800063c                        . = ALIGN (0x4)
+                0x08000d7c                        __exidx_end = .
+                0x08000d7c                        . = ALIGN (0x4)
 
-.preinit_array  0x0800063c        0x0
-                0x0800063c                        . = ALIGN (0x4)
-                0x0800063c                        PROVIDE (__preinit_array_start = .)
+.preinit_array  0x08000d7c        0x0
+                0x08000d7c                        . = ALIGN (0x4)
+                0x08000d7c                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array*)
-                0x0800063c                        PROVIDE (__preinit_array_end = .)
-                0x0800063c                        . = ALIGN (0x4)
+                0x08000d7c                        PROVIDE (__preinit_array_end = .)
+                0x08000d7c                        . = ALIGN (0x4)
 
-.init_array     0x0800063c        0x4
-                0x0800063c                        . = ALIGN (0x4)
-                0x0800063c                        PROVIDE (__init_array_start = .)
+.init_array     0x08000d7c        0x4
+                0x08000d7c                        . = ALIGN (0x4)
+                0x08000d7c                        PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array*)
- .init_array    0x0800063c        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
-                0x08000640                        PROVIDE (__init_array_end = .)
-                0x08000640                        . = ALIGN (0x4)
+ .init_array    0x08000d7c        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+                0x08000d80                        PROVIDE (__init_array_end = .)
+                0x08000d80                        . = ALIGN (0x4)
 
-.fini_array     0x08000640        0x4
-                0x08000640                        . = ALIGN (0x4)
+.fini_array     0x08000d80        0x4
+                0x08000d80                        . = ALIGN (0x4)
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array*)
- .fini_array    0x08000640        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+ .fini_array    0x08000d80        0x4 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
                 [!provide]                        PROVIDE (__fini_array_end = .)
-                0x08000644                        . = ALIGN (0x4)
-                0x08000644                        _sidata = LOADADDR (.data)
+                0x08000d84                        . = ALIGN (0x4)
+                0x08000d84                        _sidata = LOADADDR (.data)
 
-.rel.dyn        0x08000644        0x0
- .rel.iplt      0x08000644        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+.rel.dyn        0x08000d84        0x0
+ .rel.iplt      0x08000d84        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
 
-.data           0x20000000        0x8 load address 0x08000644
+.data           0x20000000       0x2c load address 0x08000d84
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        _sdata = .
  *(.data)
  *(.data*)
- .data.LED1     0x20000000        0x8 ./device_instances/device_instances.o
+ .data.pwm_led_cfg
+                0x20000000       0x10 ./device_instances/device_instances.o
+ .data.pwm_led  0x20000010        0xc ./device_instances/device_instances.o
+ .data.tim3_cfg
+                0x2000001c       0x10 ./init/timer/timer_init.o
  *(.RamFunc)
  *(.RamFunc*)
-                0x20000008                        . = ALIGN (0x4)
-                0x20000008                        _edata = .
+                0x2000002c                        . = ALIGN (0x4)
+                0x2000002c                        _edata = .
 
-.igot.plt       0x20000008        0x0 load address 0x0800064c
- .igot.plt      0x20000008        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
-                0x20000008                        . = ALIGN (0x4)
+.igot.plt       0x2000002c        0x0 load address 0x08000db0
+ .igot.plt      0x2000002c        0x0 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+                0x2000002c                        . = ALIGN (0x4)
 
-.bss            0x20000008       0x20 load address 0x0800064c
-                0x20000008                        _sbss = .
-                0x20000008                        __bss_start__ = _sbss
+.bss            0x2000002c       0x20 load address 0x08000db0
+                0x2000002c                        _sbss = .
+                0x2000002c                        __bss_start__ = _sbss
  *(.bss)
- .bss           0x20000008       0x1c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
+ .bss           0x2000002c       0x1c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtbegin.o
  *(.bss*)
  .bss.systick_ms
-                0x20000024        0x4 ./Drivers/systick/systick.o
-                0x20000024                systick_ms
+                0x20000048        0x4 ./Drivers/systick/systick.o
+                0x20000048                systick_ms
  *(COMMON)
-                0x20000028                        . = ALIGN (0x4)
-                0x20000028                        _ebss = .
-                0x20000028                        __bss_end__ = _ebss
+                0x2000004c                        . = ALIGN (0x4)
+                0x2000004c                        _ebss = .
+                0x2000004c                        __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x20000028      0x600 load address 0x0800064c
-                0x20000028                        . = ALIGN (0x8)
+                0x2000004c      0x604 load address 0x08000db0
+                0x20000050                        . = ALIGN (0x8)
+ *fill*         0x2000004c        0x4 
                 [!provide]                        PROVIDE (end = .)
-                0x20000028                        PROVIDE (_end = .)
-                0x20000228                        . = (. + _Min_Heap_Size)
- *fill*         0x20000028      0x200 
-                0x20000628                        . = (. + _Min_Stack_Size)
- *fill*         0x20000228      0x400 
-                0x20000628                        . = ALIGN (0x8)
+                0x20000050                        PROVIDE (_end = .)
+                0x20000250                        . = (. + _Min_Heap_Size)
+ *fill*         0x20000050      0x200 
+                0x20000650                        . = (. + _Min_Stack_Size)
+ *fill*         0x20000250      0x400 
+                0x20000650                        . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -1519,130 +1769,182 @@ LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.exte
  .ARM.attributes
                 0x000000a2       0x2c ./Drivers/systick/systick.o
  .ARM.attributes
-                0x000000ce       0x2c ./Src/main.o
+                0x000000ce       0x2c ./Drivers/timer/timer.o
  .ARM.attributes
-                0x000000fa       0x22 ./Startup/startup_stm32g070rbtx.o
+                0x000000fa       0x2c ./Drivers/timer/timer_pwm/timer_pwm.o
  .ARM.attributes
-                0x0000011c       0x2c ./device_instances/device_instances.o
+                0x00000126       0x2c ./Src/main.o
  .ARM.attributes
-                0x00000148       0x2c ./init/led/led_init.o
+                0x00000152       0x22 ./Startup/startup_stm32g070rbtx.o
  .ARM.attributes
-                0x00000174       0x2c ./init/system/system.o
+                0x00000174       0x2c ./device_instances/device_instances.o
  .ARM.attributes
-                0x000001a0       0x2c ./init/systick/systick_init.o
+                0x000001a0       0x2c ./init/gpio/gpio_init.o
  .ARM.attributes
-                0x000001cc       0x2c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
+                0x000001cc       0x2c ./init/led/led_init.o
  .ARM.attributes
-                0x000001f8       0x1e C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
+                0x000001f8       0x2c ./init/system/system.o
+ .ARM.attributes
+                0x00000224       0x2c ./init/systick/systick_init.o
+ .ARM.attributes
+                0x00000250       0x2c ./init/timer/timer_init.o
+ .ARM.attributes
+                0x0000027c       0x2c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
+ .ARM.attributes
+                0x000002a8       0x1e C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x000002c6       0x1e C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_dvmd_tls.o)
+ .ARM.attributes
+                0x000002e4       0x1e C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp/crtn.o
 OUTPUT(timers-pwm-led.elf elf32-littlearm)
 LOAD linker stubs
 LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc.a
 LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libm.a
 LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a
 
-.debug_info     0x00000000     0x12a4
- .debug_info    0x00000000      0x3e1 ./Devices/led/led.o
- .debug_info    0x000003e1      0x673 ./Drivers/gpio/gpio.o
- .debug_info    0x00000a54      0x197 ./Drivers/systick/systick.o
- .debug_info    0x00000beb      0x1e1 ./Src/main.o
- .debug_info    0x00000dcc       0x30 ./Startup/startup_stm32g070rbtx.o
- .debug_info    0x00000dfc      0x1ad ./device_instances/device_instances.o
- .debug_info    0x00000fa9      0x1b5 ./init/led/led_init.o
- .debug_info    0x0000115e       0x99 ./init/system/system.o
- .debug_info    0x000011f7       0xad ./init/systick/systick_init.o
+.debug_info     0x00000000     0x2e1b
+ .debug_info    0x00000000      0x6ae ./Devices/led/led.o
+ .debug_info    0x000006ae      0x673 ./Drivers/gpio/gpio.o
+ .debug_info    0x00000d21      0x197 ./Drivers/systick/systick.o
+ .debug_info    0x00000eb8      0x7c4 ./Drivers/timer/timer.o
+ .debug_info    0x0000167c      0x3c3 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_info    0x00001a3f      0x474 ./Src/main.o
+ .debug_info    0x00001eb3       0x30 ./Startup/startup_stm32g070rbtx.o
+ .debug_info    0x00001ee3      0x419 ./device_instances/device_instances.o
+ .debug_info    0x000022fc      0x2d1 ./init/gpio/gpio_init.o
+ .debug_info    0x000025cd      0x411 ./init/led/led_init.o
+ .debug_info    0x000029de       0xaa ./init/system/system.o
+ .debug_info    0x00002a88       0xad ./init/systick/systick_init.o
+ .debug_info    0x00002b35      0x2e6 ./init/timer/timer_init.o
 
-.debug_abbrev   0x00000000      0x8d1
- .debug_abbrev  0x00000000      0x16d ./Devices/led/led.o
- .debug_abbrev  0x0000016d      0x1a4 ./Drivers/gpio/gpio.o
- .debug_abbrev  0x00000311      0x15e ./Drivers/systick/systick.o
- .debug_abbrev  0x0000046f      0x144 ./Src/main.o
- .debug_abbrev  0x000005b3       0x24 ./Startup/startup_stm32g070rbtx.o
- .debug_abbrev  0x000005d7       0xff ./device_instances/device_instances.o
- .debug_abbrev  0x000006d6      0x11b ./init/led/led_init.o
- .debug_abbrev  0x000007f1       0x70 ./init/system/system.o
- .debug_abbrev  0x00000861       0x70 ./init/systick/systick_init.o
+.debug_abbrev   0x00000000      0xf85
+ .debug_abbrev  0x00000000      0x1b0 ./Devices/led/led.o
+ .debug_abbrev  0x000001b0      0x1a4 ./Drivers/gpio/gpio.o
+ .debug_abbrev  0x00000354      0x15e ./Drivers/systick/systick.o
+ .debug_abbrev  0x000004b2      0x21e ./Drivers/timer/timer.o
+ .debug_abbrev  0x000006d0      0x174 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_abbrev  0x00000844      0x18f ./Src/main.o
+ .debug_abbrev  0x000009d3       0x24 ./Startup/startup_stm32g070rbtx.o
+ .debug_abbrev  0x000009f7      0x124 ./device_instances/device_instances.o
+ .debug_abbrev  0x00000b1b      0x11d ./init/gpio/gpio_init.o
+ .debug_abbrev  0x00000c38      0x13f ./init/led/led_init.o
+ .debug_abbrev  0x00000d77       0x72 ./init/system/system.o
+ .debug_abbrev  0x00000de9       0x70 ./init/systick/systick_init.o
+ .debug_abbrev  0x00000e59      0x12c ./init/timer/timer_init.o
 
-.debug_aranges  0x00000000      0x1b0
+.debug_aranges  0x00000000      0x298
  .debug_aranges
-                0x00000000       0x38 ./Devices/led/led.o
+                0x00000000       0x40 ./Devices/led/led.o
  .debug_aranges
-                0x00000038       0x70 ./Drivers/gpio/gpio.o
+                0x00000040       0x70 ./Drivers/gpio/gpio.o
  .debug_aranges
-                0x000000a8       0x40 ./Drivers/systick/systick.o
+                0x000000b0       0x40 ./Drivers/systick/systick.o
  .debug_aranges
-                0x000000e8       0x20 ./Src/main.o
+                0x000000f0       0x60 ./Drivers/timer/timer.o
  .debug_aranges
-                0x00000108       0x28 ./Startup/startup_stm32g070rbtx.o
+                0x00000150       0x40 ./Drivers/timer/timer_pwm/timer_pwm.o
  .debug_aranges
-                0x00000130       0x20 ./device_instances/device_instances.o
+                0x00000190       0x20 ./Src/main.o
  .debug_aranges
-                0x00000150       0x20 ./init/led/led_init.o
+                0x000001b0       0x28 ./Startup/startup_stm32g070rbtx.o
  .debug_aranges
-                0x00000170       0x20 ./init/system/system.o
+                0x000001d8       0x20 ./device_instances/device_instances.o
  .debug_aranges
-                0x00000190       0x20 ./init/systick/systick_init.o
+                0x000001f8       0x20 ./init/gpio/gpio_init.o
+ .debug_aranges
+                0x00000218       0x20 ./init/led/led_init.o
+ .debug_aranges
+                0x00000238       0x20 ./init/system/system.o
+ .debug_aranges
+                0x00000258       0x20 ./init/systick/systick_init.o
+ .debug_aranges
+                0x00000278       0x20 ./init/timer/timer_init.o
 
 .debug_rnglists
-                0x00000000      0x11a
+                0x00000000      0x1ba
  .debug_rnglists
-                0x00000000       0x25 ./Devices/led/led.o
+                0x00000000       0x2c ./Devices/led/led.o
  .debug_rnglists
-                0x00000025       0x52 ./Drivers/gpio/gpio.o
+                0x0000002c       0x52 ./Drivers/gpio/gpio.o
  .debug_rnglists
-                0x00000077       0x2b ./Drivers/systick/systick.o
+                0x0000007e       0x2b ./Drivers/systick/systick.o
  .debug_rnglists
-                0x000000a2       0x13 ./Src/main.o
+                0x000000a9       0x46 ./Drivers/timer/timer.o
  .debug_rnglists
-                0x000000b5       0x19 ./Startup/startup_stm32g070rbtx.o
+                0x000000ef       0x2d ./Drivers/timer/timer_pwm/timer_pwm.o
  .debug_rnglists
-                0x000000ce       0x13 ./device_instances/device_instances.o
+                0x0000011c       0x13 ./Src/main.o
  .debug_rnglists
-                0x000000e1       0x13 ./init/led/led_init.o
+                0x0000012f       0x19 ./Startup/startup_stm32g070rbtx.o
  .debug_rnglists
-                0x000000f4       0x13 ./init/system/system.o
+                0x00000148       0x13 ./device_instances/device_instances.o
  .debug_rnglists
-                0x00000107       0x13 ./init/systick/systick_init.o
+                0x0000015b       0x13 ./init/gpio/gpio_init.o
+ .debug_rnglists
+                0x0000016e       0x13 ./init/led/led_init.o
+ .debug_rnglists
+                0x00000181       0x13 ./init/system/system.o
+ .debug_rnglists
+                0x00000194       0x13 ./init/systick/systick_init.o
+ .debug_rnglists
+                0x000001a7       0x13 ./init/timer/timer_init.o
 
-.debug_macro    0x00000000      0x658
- .debug_macro   0x00000000       0xc3 ./Devices/led/led.o
- .debug_macro   0x000000c3       0xbf ./Drivers/gpio/gpio.o
- .debug_macro   0x00000182       0xd7 ./Drivers/systick/systick.o
- .debug_macro   0x00000259       0xd5 ./Src/main.o
- .debug_macro   0x0000032e       0xc3 ./device_instances/device_instances.o
- .debug_macro   0x000003f1       0xcb ./init/led/led_init.o
- .debug_macro   0x000004bc       0xd3 ./init/system/system.o
- .debug_macro   0x0000058f       0xc9 ./init/systick/systick_init.o
+.debug_macro    0x00000000      0xa08
+ .debug_macro   0x00000000       0xcb ./Devices/led/led.o
+ .debug_macro   0x000000cb       0xbf ./Drivers/gpio/gpio.o
+ .debug_macro   0x0000018a       0xd7 ./Drivers/systick/systick.o
+ .debug_macro   0x00000261       0xb9 ./Drivers/timer/timer.o
+ .debug_macro   0x0000031a      0x105 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_macro   0x0000041f       0xe3 ./Src/main.o
+ .debug_macro   0x00000502       0xcb ./device_instances/device_instances.o
+ .debug_macro   0x000005cd       0xc3 ./init/gpio/gpio_init.o
+ .debug_macro   0x00000690       0xd3 ./init/led/led_init.o
+ .debug_macro   0x00000763      0x11f ./init/system/system.o
+ .debug_macro   0x00000882       0xc9 ./init/systick/systick_init.o
+ .debug_macro   0x0000094b       0xbd ./init/timer/timer_init.o
 
-.debug_line     0x00000000     0x2f92
- .debug_line    0x00000000      0x5a6 ./Devices/led/led.o
- .debug_line    0x000005a6      0x79c ./Drivers/gpio/gpio.o
- .debug_line    0x00000d42      0x5b4 ./Drivers/systick/systick.o
- .debug_line    0x000012f6      0x5f3 ./Src/main.o
- .debug_line    0x000018e9       0x7b ./Startup/startup_stm32g070rbtx.o
- .debug_line    0x00001964      0x573 ./device_instances/device_instances.o
- .debug_line    0x00001ed7      0x5a2 ./init/led/led_init.o
- .debug_line    0x00002479      0x5d7 ./init/system/system.o
- .debug_line    0x00002a50      0x542 ./init/systick/systick_init.o
+.debug_line     0x00000000     0x4e93
+ .debug_line    0x00000000      0x6a6 ./Devices/led/led.o
+ .debug_line    0x000006a6      0x79c ./Drivers/gpio/gpio.o
+ .debug_line    0x00000e42      0x5b4 ./Drivers/systick/systick.o
+ .debug_line    0x000013f6      0x7c9 ./Drivers/timer/timer.o
+ .debug_line    0x00001bbf      0x769 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_line    0x00002328      0x6ba ./Src/main.o
+ .debug_line    0x000029e2       0x7b ./Startup/startup_stm32g070rbtx.o
+ .debug_line    0x00002a5d      0x60d ./device_instances/device_instances.o
+ .debug_line    0x0000306a      0x530 ./init/gpio/gpio_init.o
+ .debug_line    0x0000359a      0x63a ./init/led/led_init.o
+ .debug_line    0x00003bd4      0x843 ./init/system/system.o
+ .debug_line    0x00004417      0x542 ./init/systick/systick_init.o
+ .debug_line    0x00004959      0x53a ./init/timer/timer_init.o
 
-.debug_str      0x00000000    0x42d83
- .debug_str     0x00000000    0x42d83 ./Devices/led/led.o
-                              0x42b26 (size before relaxing)
- .debug_str     0x00042d83        0x0 ./Drivers/gpio/gpio.o
+.debug_str      0x00000000    0x43452
+ .debug_str     0x00000000    0x43452 ./Devices/led/led.o
+                              0x42c84 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./Drivers/gpio/gpio.o
                               0x42c64 (size before relaxing)
- .debug_str     0x00042d83        0x0 ./Drivers/systick/systick.o
+ .debug_str     0x00043452        0x0 ./Drivers/systick/systick.o
                               0x429bd (size before relaxing)
- .debug_str     0x00042d83        0x0 ./Src/main.o
-                              0x42958 (size before relaxing)
- .debug_str     0x00042d83        0x0 ./Startup/startup_stm32g070rbtx.o
+ .debug_str     0x00043452        0x0 ./Drivers/timer/timer.o
+                              0x42d61 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./Drivers/timer/timer_pwm/timer_pwm.o
+                              0x42bb9 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./Src/main.o
+                              0x42ab2 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./Startup/startup_stm32g070rbtx.o
                                  0x89 (size before relaxing)
- .debug_str     0x00042d83        0x0 ./device_instances/device_instances.o
-                              0x42938 (size before relaxing)
- .debug_str     0x00042d83        0x0 ./init/led/led_init.o
-                              0x42939 (size before relaxing)
- .debug_str     0x00042d83        0x0 ./init/system/system.o
-                              0x428e2 (size before relaxing)
- .debug_str     0x00042d83        0x0 ./init/systick/systick_init.o
-                              0x4290c (size before relaxing)
+ .debug_str     0x00043452        0x0 ./device_instances/device_instances.o
+                              0x42a87 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./init/gpio/gpio_init.o
+                              0x42aa5 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./init/led/led_init.o
+                              0x42a79 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./init/system/system.o
+                              0x4292d (size before relaxing)
+ .debug_str     0x00043452        0x0 ./init/systick/systick_init.o
+                              0x42918 (size before relaxing)
+ .debug_str     0x00043452        0x0 ./init/timer/timer_init.o
+                              0x429fe (size before relaxing)
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 ./Devices/led/led.o
@@ -1651,9 +1953,15 @@ LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.exte
                                  0x44 (size before relaxing)
  .comment       0x00000043        0x0 ./Drivers/systick/systick.o
                                  0x44 (size before relaxing)
+ .comment       0x00000043        0x0 ./Drivers/timer/timer.o
+                                 0x44 (size before relaxing)
+ .comment       0x00000043        0x0 ./Drivers/timer/timer_pwm/timer_pwm.o
+                                 0x44 (size before relaxing)
  .comment       0x00000043        0x0 ./Src/main.o
                                  0x44 (size before relaxing)
  .comment       0x00000043        0x0 ./device_instances/device_instances.o
+                                 0x44 (size before relaxing)
+ .comment       0x00000043        0x0 ./init/gpio/gpio_init.o
                                  0x44 (size before relaxing)
  .comment       0x00000043        0x0 ./init/led/led_init.o
                                  0x44 (size before relaxing)
@@ -1661,17 +1969,24 @@ LOAD C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.exte
                                  0x44 (size before relaxing)
  .comment       0x00000043        0x0 ./init/systick/systick_init.o
                                  0x44 (size before relaxing)
+ .comment       0x00000043        0x0 ./init/timer/timer_init.o
+                                 0x44 (size before relaxing)
 
-.debug_frame    0x00000000      0x3b4
- .debug_frame   0x00000000       0x90 ./Devices/led/led.o
- .debug_frame   0x00000090      0x170 ./Drivers/gpio/gpio.o
- .debug_frame   0x00000200       0xa8 ./Drivers/systick/systick.o
- .debug_frame   0x000002a8       0x30 ./Src/main.o
- .debug_frame   0x000002d8       0x2c ./device_instances/device_instances.o
- .debug_frame   0x00000304       0x2c ./init/led/led_init.o
- .debug_frame   0x00000330       0x2c ./init/system/system.o
- .debug_frame   0x0000035c       0x2c ./init/systick/systick_init.o
- .debug_frame   0x00000388       0x2c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
+.debug_frame    0x00000000      0x640
+ .debug_frame   0x00000000       0xb0 ./Devices/led/led.o
+ .debug_frame   0x000000b0      0x170 ./Drivers/gpio/gpio.o
+ .debug_frame   0x00000220       0xa8 ./Drivers/systick/systick.o
+ .debug_frame   0x000002c8      0x13c ./Drivers/timer/timer.o
+ .debug_frame   0x00000404       0xb8 ./Drivers/timer/timer_pwm/timer_pwm.o
+ .debug_frame   0x000004bc       0x30 ./Src/main.o
+ .debug_frame   0x000004ec       0x2c ./device_instances/device_instances.o
+ .debug_frame   0x00000518       0x2c ./init/gpio/gpio_init.o
+ .debug_frame   0x00000544       0x2c ./init/led/led_init.o
+ .debug_frame   0x00000570       0x2c ./init/system/system.o
+ .debug_frame   0x0000059c       0x2c ./init/systick/systick_init.o
+ .debug_frame   0x000005c8       0x2c ./init/timer/timer_init.o
+ .debug_frame   0x000005f4       0x2c C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
+ .debug_frame   0x00000620       0x20 C:/ST/STM32CubeIDE_2.0.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
 
 .debug_line_str
                 0x00000000       0x6d

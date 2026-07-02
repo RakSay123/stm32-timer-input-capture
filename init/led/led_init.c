@@ -2,5 +2,5 @@
 
 void led_init_all()
 {
-	led_init(get_led1());
+	led_init(get_pwm_led());
 }
