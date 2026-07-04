@@ -10,27 +10,49 @@
   #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-#define DELAY_MS 15
+#define BREATH_INTERVAL_MS 15
+#define HEARTBEAT_INTERVAL_MS 300
 
 int main(void)
 {
 	system_init();
 
-	LED_t *led = get_pwm_led();
-	led_set_brightness(led, 0);
+	LED_t *pwm_led = get_pwm_led();
+	LED_t *board_led = get_board_led();
+
+	uint32_t last_breath_time = 0;
+	uint32_t last_heartbeat_time = 0;
+
+	int brightness = 0;
+	int direction = 1;
 
 	while (1)
 	{
-		for (int brightness = 0; brightness < 100; brightness++)
+		uint32_t now = millis();
+		if ((now - last_breath_time) >= BREATH_INTERVAL_MS)
 		{
-			led_set_brightness(led, brightness);
-			systick_delay_ms(DELAY_MS);
+			last_breath_time = now;
+
+			led_set_brightness(pwm_led, brightness);
+
+			brightness += direction;
+
+			if (brightness >= 100)
+			{
+				brightness = 100;
+				direction = -1;
+			}
+			else if (brightness <= 0)
+			{
+				brightness = 0;
+				direction = 1;
+			}
 		}
 
-		for (int brightness = 100; brightness > 0; brightness--)
+		if ((now - last_heartbeat_time) >= HEARTBEAT_INTERVAL_MS)
 		{
-			led_set_brightness(led, brightness);
-			systick_delay_ms(DELAY_MS);
+			last_heartbeat_time = now;
+			led_toggle(board_led);
 		}
 	}
 }

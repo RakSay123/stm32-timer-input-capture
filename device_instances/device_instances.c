@@ -1,3 +1,4 @@
+#include "device_instances.h"
 #include "led/led.h"
 
 static TIM_PWM_Config_t pwm_led_cfg = {
@@ -15,8 +16,20 @@ static LED_t pwm_led = {
     .pwm_cfg = &pwm_led_cfg
 };
 
+static LED_t board_led = {
+    .port = GPIOA,
+    .pin = 5,
+    .mode = LED_MODE_GPIO,
+	.alternate = GPIO_AF0
+};
+
 
 LED_t* get_pwm_led(void)
 {
 	return &pwm_led;
+}
+
+LED_t* get_board_led(void)
+{
+	return &board_led;
 }
