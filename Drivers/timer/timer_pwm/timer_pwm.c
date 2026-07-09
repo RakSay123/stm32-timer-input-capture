@@ -106,6 +106,16 @@ static TIM_Status_t timer_pwm_config_channel(TIM_PWM_Config_t *cfg)
     return TIM_OK;
 }
 
+static TIM_Status_t timer_pwm_enable_main_output_if_needed(TIM_TypeDef *TIMx)
+{
+    if (TIMx == TIM1 || TIMx == TIM15 || TIMx == TIM16 || TIMx == TIM17)
+    {
+        TIMx->BDTR |= TIM_BDTR_MOE;
+    }
+
+	return TIM_OK;
+}
+
 TIM_Status_t timer_pwm_init(TIM_PWM_Config_t *cfg)
 {
 	TIM_Status_t status = TIM_OK;
@@ -118,6 +128,9 @@ TIM_Status_t timer_pwm_init(TIM_PWM_Config_t *cfg)
 	if (status != TIM_OK) return status;
 
 	cfg->TIMx->CR1 |= TIM_CR1_CEN;
+
+	timer_pwm_enable_main_output_if_needed(cfg->TIMx);
+
 	return status;
 }
 
@@ -129,6 +142,29 @@ TIM_Status_t timer_pwm_set_duty_cycle(TIM_PWM_Config_t *cfg, uint32_t percentage
 
 	status = timer_pwm_configure_duty_cycle(cfg);
 	if (status != TIM_OK) return status;
+
+	return status;
+}
+
+TIM_Status_t timer_pwm_set_compare_value(TIM_PWM_Config_t *cfg, uint32_t compare_value)
+{
+	TIM_Status_t status = TIM_OK;
+	if (compare_value > (cfg->TIMx->ARR + 1)) compare_value = cfg->TIMx->ARR + 1;
+
+	switch (cfg->channel)
+	{
+		case 1: cfg->TIMx->CCR1 = compare_value;
+			break;
+		case 2: cfg->TIMx->CCR2 = compare_value;
+			break;
+		case 3: cfg->TIMx->CCR3 = compare_value;
+			break;
+		case 4: cfg->TIMx->CCR4 = compare_value;
+			break;
+		default:
+			status =  TIM_ERR;
+			break;
+	}
 
 	return status;
 }

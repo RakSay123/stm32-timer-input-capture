@@ -16,11 +16,12 @@ void system_init(void)
 	gpio_init_all();
 	systick_init_all();
 	timer_init_all();
-//	timer_pwm_init_all();
+	timer_pwm_init_all();
 //	uart_init_all();
 //	i2c_init_all();
 
 	/*** Devices ***/
 	led_init_all();
 //	bno055_init_all();
+	servo_init_all();
 }

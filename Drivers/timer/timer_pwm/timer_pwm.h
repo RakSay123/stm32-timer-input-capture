@@ -17,3 +17,5 @@ typedef struct {
 TIM_Status_t timer_pwm_init(TIM_PWM_Config_t *cfg);
 
 TIM_Status_t timer_pwm_set_duty_cycle(TIM_PWM_Config_t *cfg, uint32_t percentage);
+
+TIM_Status_t timer_pwm_set_compare_value(TIM_PWM_Config_t *cfg, uint32_t pulse_us);
