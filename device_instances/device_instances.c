@@ -22,25 +22,32 @@ static LED_t board_led = {
 	.alternate = GPIO_AF0
 };
 
-static TIM_PWM_Config_t mg90s_pwm_config = {
-	.TIMx = TIM16,
-	.channel = 1,
-	.duty_cycle = 0,
-	.pwm_mode = TIM_PWM1
+static TIM_Input_Capture_Config_t pwm_monitor_tim_ic_cfg = {
+    .TIMx = TIM16,
+    .channel = 1,
+    .input_selection = TIM_IC_INPUT_DIRECT,
+    .psc = TIM_IC_PSC_NONE,
+    .filter = TIM_IC_FILTER_NONE,
+    .mode = TIM_IC_EDGE_RISING
 };
 
-static SERVO_t mg90s = {
-	.port = GPIOB,
-	.pin = 8,
-	.alternate = GPIO_AF2,
+static PWM_Monitor_t pwm_monitor = {
+    .port = GPIOD,
+    .pin = 0,
+    .alternate = GPIO_AF2,
 
-	.pwm_cfg = &mg90s_pwm_config,
+	.capture_cfg = &pwm_monitor_tim_ic_cfg,
+	.USARTx = USART2,
 
-	.min_pulse_us = 1000,
-	.max_pulse_us = 2000,
+	.state = PWM_MONITOR_WAIT_RISING,
 
-	.min_angle = -45,
-	.max_angle = 45
+	.rising_timestamp = 0,
+	.falling_timestamp = 0,
+	.next_rising_timestamp = 0,
+
+	.period_ticks = 0,
+	.high_ticks = 0,
+	.duty_percent = 0
 };
 
 LED_t* get_pwm_led(void)
@@ -53,7 +60,7 @@ LED_t* get_board_led(void)
 	return &board_led;
 }
 
-SERVO_t* get_mg90s(void)
+PWM_Monitor_t* get_pwm_monitor(void)
 {
-	return &mg90s;
+	return &pwm_monitor;
 }
