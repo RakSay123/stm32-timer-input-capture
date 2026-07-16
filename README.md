@@ -1,5 +1,5 @@
 # STM32 Timer Input Capture & PWM Monitor
-
+![PWM Monitor Demo](media/pwm-monitor-demo.gif)
 A bare-metal STM32 project demonstrating **timer input capture** by measuring a PWM waveform generated from another timer.
 
 Instead of simply generating PWM, this project uses a second timer configured in **Input Capture mode** to analyze the waveform in real time and calculate:
@@ -10,14 +10,6 @@ Instead of simply generating PWM, this project uses a second timer configured in
 - Duty Cycle
 
 The project is written entirely using **register-level programming** without HAL, with reusable peripheral and device drivers.
-
----
-
-## Demo
-
-> Add GIF/video here
-
----
 
 # Features
 
