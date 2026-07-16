@@ -28,7 +28,7 @@ static TIM_Input_Capture_Config_t pwm_monitor_tim_ic_cfg = {
     .input_selection = TIM_IC_INPUT_DIRECT,
     .psc = TIM_IC_PSC_NONE,
     .filter = TIM_IC_FILTER_NONE,
-    .mode = TIM_IC_EDGE_RISING
+    .mode = TIM_IC_EDGE_BOTH
 };
 
 static PWM_Monitor_t pwm_monitor = {
@@ -47,6 +47,7 @@ static PWM_Monitor_t pwm_monitor = {
 
 	.period_ticks = 0,
 	.high_ticks = 0,
+	.low_ticks = 0,
 	.duty_percent = 0
 };
 
