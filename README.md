@@ -208,7 +208,3 @@ Src/
 - Driver cleanup and additional documentation
 
 ---
-
-# License
-
-MIT License
